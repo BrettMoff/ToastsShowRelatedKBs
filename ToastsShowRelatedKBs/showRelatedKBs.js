@@ -6,6 +6,8 @@ Author: Adrian Paech, Jeff Lang, Brett Moffett, Joivan Hedrick
 Description: Adds a custom badge on the menu item counting all active work items. Refreshes every minute.
 
 v1.0 	Initial community release
+v1.1 	Alertify JS verion update.
+		Added 10 second timeut on messages
 
 TO DO LIST:
 - Have the JS look up the navigation column colour and set the background colour to match.
@@ -166,7 +168,7 @@ function showRelatedKBs(blnIncludeDescription, blnDisplayResults, searchNumber) 
 						arrSortedKBs = getKeysSortedDescending(htKBRelevanceSorter);
 						//Formulate alertify notification message.
 						var intKBLimit = 5;
-						var notificationMsg = notificationMsg + "<b><span style=\"font-size: 15px; background-color: rgba(41, 133, 184, 0.6);\">";							
+						var notificationMsg = notificationMsg + "<b><span style=\"font-size: 15px; \">";							
 						if (blnIncludeDescription) { 
 							notificationMsg = notificationMsg + "Related Knowledge Article(s) - (Full)</span></b>"; 
 							intKBLimit = 10;
@@ -183,23 +185,23 @@ function showRelatedKBs(blnIncludeDescription, blnDisplayResults, searchNumber) 
 													
 						//this runs through the arrSortedKBs array and adds the first 5 returned results (or 10 results for comprehensive search) to the Related KBs table
 						for (var i = 0; i < arrSortedKBs.length && i < intKBLimit; i++) {			
-							notificationMsg = notificationMsg + "<li><a style=\"color: lightGray;\" href=\"/KnowledgeBase/View/" + data[arrSortedKBs[i]].ArticleId + "\" target=\"KB: " + data[arrSortedKBs[i]].ArticleId + "\"><u><b>KB" + data[arrSortedKBs[i]].ArticleId + "</b></u></a> - <i>" + data[arrSortedKBs[i]].Title.substring(0,60) + "</i>";
+							notificationMsg = notificationMsg + "<li><a style=\"color: white;margin-left:5px;\" href=\"/KnowledgeBase/View/" + data[arrSortedKBs[i]].ArticleId + "\" target=\"KB: " + data[arrSortedKBs[i]].ArticleId + "\"><u><b>KB" + data[arrSortedKBs[i]].ArticleId + "</b></u></a> - <i>" + data[arrSortedKBs[i]].Title.substring(0,60) + "</i>";
 							if (data[arrSortedKBs[i]].Title.length > 60) { notificationMsg = notificationMsg + "..."; }
 							notificationMsg = notificationMsg + "</li>";
 						}							
 						notificationMsg = notificationMsg + "</ol>";
-						if (blnIncludeDescription == false) { notificationMsg = notificationMsg + "<a class=\"rerunKBSearch\" style=\"color: lightGray; cursor: pointer;\" onclick=\"showRelatedKBs(true, true)\"><u>Run Full Search</u></a> (Title & Description)"; }
+						if (blnIncludeDescription == false) { notificationMsg = notificationMsg + "<a class=\"rerunKBSearch\" style=\"color: white; cursor: pointer;\" onclick=\"showRelatedKBs(true, true)\"><u>Run Full Search</u></a> (Title & Description)"; }
 						//alert users of related KB articles
 						if (oldKBToast != notificationMsg) {
 							currKBAlerts = $('article.alertify-log.alertify-log-show span:contains("Related Knowledge Article(s)")');
 							for( var i=0; i < currKBAlerts.length; i++) {$(currKBAlerts[i]).parent().parent().click();}
-							alertify.log(notificationMsg, "", 0);
+							alertify.warning(notificationMsg, "10", 0);
 							oldKBToast = notificationMsg;
 						}
 					} else {
 						//Only Prompt, instead of displaying results.
 						notificationMsg = notificationMsg + "Found '" + data.length + "' Related KB Articles (<a class=\"rerunKBSearch\" onclick=\"showRelatedKBs(false, true)\" style=\"cursor: pointer; color: lightGray;\"><u>view results</u></a>)";
-						alertify.log(notificationMsg);
+						alertify.warning(notificationMsg);
 						oldKBToast = notificationMsg;
 					}
 				} else {

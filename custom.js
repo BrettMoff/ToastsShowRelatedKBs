@@ -40,7 +40,6 @@ var loadScript = function (path,urls) {
 /* ----------------------------------------------- */
 
 
-
-/* ----------- Advanced Portal Search App --------- */
-//Load Search Common Functions (lib)
-loadScript("/CustomSpace/showRelatedKBs.js",['']);
+/* ------------- Toast Notifications for Related KB's -------------- */
+loadScript("/CustomSpace/ToastsShowRelatedKBs/showRelatedKBs.js",['']);
+/* ----------- End Toast Notifications for Related KB's -------------- */
